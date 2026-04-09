@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Enkripsi & Dekripsi - Aplikasi Kriptografi Modern</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🔐 Aplikasi Enkripsi & Dekripsi</h1>
+                <p>Enkripsi Data Digital dengan Mode ECB & CBC</p>
+            </div>
+        </div>
+
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+            <h2>Pilih Mode Enkripsi</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn active" data-mode="ecb">
+                    <span class="mode-icon">📦</span>
+                    <span class="mode-name">Mode ECB</span>
+                    <span class="mode-desc">Substitusi → Permutasi → Rotasi</span>
+                </button>
+                <button class="mode-btn" data-mode="cbc">
+                    <span class="mode-icon">🔗</span>
+                    <span class="mode-name">Mode CBC</span>
+                    <span class="mode-desc">Feistel → Substitusi → Permutasi</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid-container">
+            <!-- Input Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h3><i class="fas fa-keyboard"></i> Input</h3>
+                </div>
+
+                <!-- Input Type Selector -->
+                <div class="input-type-selector">
+                    <button class="input-type-btn active" data-type="text">
+                        <i class="fas fa-keyboard"></i> Text
+                    </button>
+                    <button class="input-type-btn" data-type="file">
+                        <i class="fas fa-file"></i> File
+                    </button>
+                </div>
+
+                <!-- Text Input -->
+                <div class="input-type-content active" id="text-input">
+                    <div class="form-group">
+                        <label for="plaintext"><i class="fas fa-pencil"></i> Masukkan Text</label>
+                        <textarea id="plaintext" placeholder="Minimal 3 karakter (nama, NIM, atau teks apapun)..." rows="8"></textarea>
+                        <small>Jumlah karakter: <span id="char-count">0</span></small>
+                    </div>
+                </div>
+
+                <!-- File Input -->
+                <div class="input-type-content" id="file-input">
+                    <div class="form-group">
+                        <label><i class="fas fa-upload"></i> Upload File .txt</label>
+                        <div class="file-upload-area" id="file-drop-area">
+                            <p><i class="fas fa-cloud-upload-alt"></i></p>
+                            <p>Drag & drop file .txt di sini</p>
+                            <small>atau klik untuk memilih</small>
+                        </div>
+                        <input type="file" id="file-input-element" accept=".txt" hidden>
+                        <small id="file-name"></small>
+                    </div>
+                </div>
+
+                <!-- Key Input -->
+                <div class="form-group">
+                    <label for="encryption-key"><i class="fas fa-key"></i> Kunci Enkripsi</label>
+                    <div class="key-input-group">
+                        <input type="text" id="encryption-key" placeholder="Masukkan kunci atau generate otomatis..." value="MySecretKey123">
+                        <button class="btn-secondary" id="generate-key-btn">
+                            <i class="fas fa-random"></i> Generate
+                        </button>
+                    </div>
+                    <small>Panjang kunci: <span id="key-length">0</span> karakter</small>
+                </div>
+
+                <!-- Output Format -->
+                <div class="form-group">
+                    <label for="output-format"><i class="fas fa-palette"></i> Format Output</label>
+                    <select id="output-format">
+                        <option value="hex">Hexadecimal (HEX)</option>
+                        <option value="binary">Binary (Biner)</option>
+                        <option value="base64">Base64</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-primary" id="encrypt-btn">
+                        <i class="fas fa-lock"></i> Enkripsi
+                    </button>
+                    <button class="btn-primary" id="decrypt-btn">
+                        <i class="fas fa-unlock"></i> Dekripsi
+                    </button>
+                    <button class="btn-danger" id="clear-btn">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h3><i class="fas fa-display"></i> Output</h3>
+                </div>
+
+                <!-- Process Details -->
+                <div class="process-details" id="process-details" style="display: none;">
+                    <h4><i class="fas fa-cogs"></i> Detail Proses</h4>
+                    <div class="process-steps" id="process-steps"></div>
+                </div>
+
+                <!-- Result -->
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Hasil Enkripsi/Dekripsi</label>
+                    <textarea id="result" placeholder="Hasil akan muncul di sini..." rows="8" readonly></textarea>
+                </div>
+
+                <!-- Output Actions -->
+                <div class="output-actions">
+                    <button class="btn-secondary" id="copy-btn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn-secondary" id="download-btn">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+
+                <!-- Messages -->
+                <div id="message-container"></div>
+            </div>
+        </div>
+
+        <!-- Mode Info -->
+        <div class="mode-info" id="mode-info">
+            <h3 id="info-title"></h3>
+            <div class="info-content" id="info-content"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>🔒 Aplikasi Enkripsi & Dekripsi | Universitas Telkom | Prodi S1 Teknik Komputer</p>
+            <p style="font-size: 0.85rem; opacity: 0.8;">Kripton 2026 | Teknologi Keamanan Data</p>
+        </div>
+    </div>
+
+    <script src="crypto.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
